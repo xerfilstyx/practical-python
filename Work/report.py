@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.6
+# Exercise 2.7
 import csv
 
 def read_portfolio(filename):
@@ -30,8 +30,25 @@ def read_prices(filename):
         rows = csv.reader(file)
         for row in rows:
             try:
-                prices[row[0]] = row[1]
+                prices[row[0]] = float(row[1])
             except IndexError:
                 pass
     
     return prices
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+
+# total cost of portfolio
+total_cost = 0
+for s in portfolio:
+    total_cost += s['shares'] * s['price']
+print('Total cost', total_cost)
+
+# total value of portfolio
+total_value = 0
+for s in portfolio:
+    total_value += s['shares'] * prices[s['name']]
+print('Current value', total_value)
+
+print('Profit', total_value - total_cost)
