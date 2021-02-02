@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.10
+# Exercise 2.11
 import csv
 
 def read_portfolio(filename):
@@ -43,10 +43,15 @@ def make_report(portfolio, prices):
     """Read portfolio list and prices dict and make the list of tuples containing Name, Shares, Prices and Change"""
 
     report = []
+    headers = ('Name', 'Shares', 'Price', 'Change')
 
     for s in portfolio:
         holding = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
         report.append(holding)
     
+    print('%10s %10s %10s %10s' % headers)
+    print(('-' * 10 + ' ') * len(headers))
     for r in report:
         print('%10s %10d %10.2f %10.2f' % r)
+
+make_report(portfolio, prices)
