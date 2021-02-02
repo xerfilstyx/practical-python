@@ -1,10 +1,10 @@
 # report.py
 #
-# Exercise 2.4
+# Exercise 2.5
 import csv
 
 def read_portfolio(filename):
-    """Read portfolio.csv and make the list of tuples"""
+    """Read portfolio.csv and make the list of dicts"""
     
     portfolio = []
 
@@ -12,7 +12,11 @@ def read_portfolio(filename):
         rows = csv.reader(file)
         header = next(rows)
         for row in rows:
-            holding = (row[0], int(row[1]), float(row[2]))
+            holding = {
+                'name': row[0],
+                'shares': int(row[1]),
+                'price': float(row[2])
+                }
             portfolio.append(holding)
     
     return portfolio
