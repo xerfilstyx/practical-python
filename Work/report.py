@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.5
+# Exercise 2.6
 import csv
 
 def read_portfolio(filename):
@@ -20,3 +20,18 @@ def read_portfolio(filename):
             portfolio.append(holding)
     
     return portfolio
+
+def read_prices(filename):
+    """Read prices.csv and make the dict"""
+
+    prices = {}
+
+    with open(filename, 'rt') as file:
+        rows = csv.reader(file)
+        for row in rows:
+            try:
+                prices[row[0]] = row[1]
+            except IndexError:
+                pass
+    
+    return prices
