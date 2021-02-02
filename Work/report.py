@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 2.9
+# Exercise 2.10
 import csv
 
 def read_portfolio(filename):
@@ -48,4 +48,5 @@ def make_report(portfolio, prices):
         holding = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
         report.append(holding)
     
-    return report
+    for r in report:
+        print('%10s %10d %10.2f %10.2f' % r)
