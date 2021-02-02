@@ -1,6 +1,6 @@
 # pcost.py
 #
-# Exercise 1.33
+# Exercise 2.15
 import csv, sys
 
 def portfolio_cost(filename):
@@ -9,13 +9,11 @@ def portfolio_cost(filename):
     with open(filename, 'rt') as file:
         rows = csv.reader(file)
         header = next(rows)     # skip header string
-        for row in rows:
-            # now row is like ['AA', '100', '32.20' thanks to csv module]
+        for rownum, row in enumerate(rows, start = 1):
             try:
                 total += int(row[1]) * float(row[2])
             except ValueError:
-                print('Invalid data. Please check your filename.')
-                break
+                print(f'Row {rownum}: Couldn\'t convert: {row}')
     
     return total
 
