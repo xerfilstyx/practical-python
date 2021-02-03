@@ -1,6 +1,6 @@
 # fileparse.py
 #
-# Exercise 3.8
+# Exercise 3.9
 import csv
 
 def parse_csv(filename, select = None, types = [str, int, float], has_headers = True, delimiter = ','):
@@ -8,7 +8,7 @@ def parse_csv(filename, select = None, types = [str, int, float], has_headers = 
     CSV 파일을 읽은 뒤 파싱하여 레코드의 목록(딕셔너리 리스트)을 생성
     """
     # select의 값이 존재하고 헤더가 존재하지 않는다면 틀린 인수 지정이므로 예외 발생
-    if select and (has_headers == False):
+    if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
 
     with open(filename) as f:
@@ -23,19 +23,23 @@ def parse_csv(filename, select = None, types = [str, int, float], has_headers = 
         if select:
             indices = [headers.index(colname) for colname in select]
             headers = select
-        else:
-            indices = []
         
         records = []
-        for row in rows:
+        for rowno, row in enumerate(rows, 1):
             if not row:     # 데이터가 없는 행은 건너뜀
                 continue
             # 특정 컬럼 선택 키워드 인수가 존재하면 필터링
-            if indices:
+            if select:
                 row = [row[index] for index in indices]
             # 형변환 선택 키워드 인수가 존재하면 형변환
             if types:
-                row = [func(val) for func, val in zip(types, row)]
+                try:
+                    row = [func(val) for func, val in zip(types, row)]
+                except ValueError as e:
+                    print(f'Row {rowno}: Couldn\'t convert {row}')
+                    print(f'Row {rowno}: Reason - {e}')
+                    continue    # 예외 발생시 해당 데이터는 row에 반영하지 않음
+
             # 헤더 여부에 따라 튜플 또는 딕셔너리 생성
             if headers:
                 record = dict(zip(headers, row))
