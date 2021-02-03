@@ -1,48 +1,31 @@
 # report.py
 #
-# Exercise 3.2
-import csv
+# Exercise 3.12
+import csv, fileparse
 
-def read_portfolio(filename):
-    """Read portfolio.csv and make the list of dicts"""
-    
-    portfolio = []
+def read_portfolio(portfolio):
+    """
+    fileparse의 parse_csv를 이용하여 filename(portfolio).csv 파일을 읽고 딕셔너리를 요소로 하는 리스트를 생성
+    """
+    return fileparse.parse_csv(portfolio)
 
-    with open(filename, 'rt') as file:
-        rows = csv.reader(file)
-        header = next(rows)
-        for rownum, row in enumerate(rows, start = 1):
-            record = dict(zip(header, row))
-            record['shares'] = int(record['shares'])
-            record['price'] = float(record['price'])
-            portfolio.append(record)
-    
-    return portfolio
-
-def read_prices(filename):
-    """Read prices.csv and make the dict"""
-
-    prices = {}
-
-    with open(filename, 'rt') as file:
-        rows = csv.reader(file)
-        for row in rows:
-            try:
-                prices[row[0]] = float(row[1])
-            except IndexError:
-                pass
-    
-    return prices
+def read_prices(prices):
+    """
+    fileparse의 parse_csv를 이용하여 filename(prices).csv 파일을 읽고 딕셔너리를 생성
+    """
+    # 헤더가 없는 경우 parse_csv는 튜플을 요소로 하는 리스트를 반환하므로 이를 딕셔너리로 변환해야 함
+    return dict(fileparse.parse_csv(prices, types = [str, float], has_headers = False))
 
 def make_report(portfolio, prices):
     """Read portfolio list and prices dict and return the list of tuples containing Name, Shares, Prices and Change"""
 
     report = []
 
-    for s in portfolio:
-        holding = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
-        report.append(holding)
-
+    for stock in portfolio:
+        current_price = prices[stock['name']]
+        change = current_price - stock['price']
+        summary = (stock['name'], stock['shares'], current_price, change)
+        report.append(summary)
     return report
 
 def print_report(report):
