@@ -1,18 +1,20 @@
 # pcost.py
 #
-# Exercise 3.14
-import sys, report
+# Exercise 3.15
+import report
 
 def portfolio_cost(filename):
-    """A function to read file from filename(dir) and return the total cost"""
-    total_cost = 0
+    """
+    report.py의 read_portfolio를 사용하여 filename(portfolio)을 읽어서 그 최종 소비액을 반환하는 함수
+    """
     record = report.read_portfolio(filename)
     return sum([stock['shares'] * stock['price'] for stock in record])
 
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = 'Data/portfolio.csv'
+def main(argv):
+    if len(argv) != 2:
+        raise SystemExit(f'Usage: pcost.py portfoliofile')
+    print('Total cost:', portfolio_cost(argv[1]))
 
-cost = portfolio_cost(filename)
-print('Total cost:', cost)
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
