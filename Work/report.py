@@ -1,7 +1,7 @@
 # report.py
 #
-# Exercise 3.12
-import csv, fileparse
+# Exercise 3.14
+import fileparse
 
 def read_portfolio(portfolio):
     """
@@ -42,5 +42,3 @@ def portfolio_report(portfolio_filename, prices_filename):
     prices = read_prices(prices_filename)
     report = make_report(portfolio, prices)
     print_report(report)
-
-portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
