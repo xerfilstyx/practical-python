@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 3.1
+# Exercise 3.2
 import csv
 
 def read_portfolio(filename):
@@ -34,9 +34,6 @@ def read_prices(filename):
     
     return prices
 
-portfolio = read_portfolio('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
-
 def make_report(portfolio, prices):
     """Read portfolio list and prices dict and return the list of tuples containing Name, Shares, Prices and Change"""
 
@@ -48,8 +45,6 @@ def make_report(portfolio, prices):
 
     return report
 
-report = make_report(portfolio, prices)
-
 def print_report(report):
 
     headers = ('Name', 'Shares', 'Price', 'Change')
@@ -59,4 +54,10 @@ def print_report(report):
     for r in report:
         print('%10s %10d %10.2f %10.2f' % r)
 
-print_report(report)
+def portfolio_report(portfolio_filename, prices_filename):
+    portfolio = read_portfolio(portfolio_filename)
+    prices = read_prices(prices_filename)
+    report = make_report(portfolio, prices)
+    print_report(report)
+
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
