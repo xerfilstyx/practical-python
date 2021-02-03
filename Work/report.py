@@ -38,18 +38,25 @@ portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
 
 def make_report(portfolio, prices):
-    """Read portfolio list and prices dict and make the list of tuples containing Name, Shares, Prices and Change"""
+    """Read portfolio list and prices dict and return the list of tuples containing Name, Shares, Prices and Change"""
 
     report = []
-    headers = ('Name', 'Shares', 'Price', 'Change')
 
     for s in portfolio:
         holding = (s['name'], s['shares'], prices[s['name']], prices[s['name']] - s['price'])
         report.append(holding)
+
+    return report
+
+report = make_report(portfolio, prices)
+
+def print_report(report):
+
+    headers = ('Name', 'Shares', 'Price', 'Change')
     
     print('%10s %10s %10s %10s' % headers)
     print(('-' * 10 + ' ') * len(headers))
     for r in report:
         print('%10s %10d %10.2f %10.2f' % r)
 
-make_report(portfolio, prices)
+print_report(report)
