@@ -1,9 +1,9 @@
 # fileparse.py
 #
-# Exercise 3.9
+# Exercise 3.10
 import csv
 
-def parse_csv(filename, select = None, types = [str, int, float], has_headers = True, delimiter = ','):
+def parse_csv(filename, select = None, types = [str, int, float], has_headers = True, delimiter = ',', silence_errors = False):
     """
     CSV 파일을 읽은 뒤 파싱하여 레코드의 목록(딕셔너리 리스트)을 생성
     """
@@ -36,8 +36,9 @@ def parse_csv(filename, select = None, types = [str, int, float], has_headers = 
                 try:
                     row = [func(val) for func, val in zip(types, row)]
                 except ValueError as e:
-                    print(f'Row {rowno}: Couldn\'t convert {row}')
-                    print(f'Row {rowno}: Reason - {e}')
+                    if not silence_errors:  # silence_errors가 True로 지정된 경우에만 오류 메시지 출력
+                        print(f'Row {rowno}: Couldn\'t convert {row}')
+                        print(f'Row {rowno}: Reason - {e}')
                     continue    # 예외 발생시 해당 데이터는 row에 반영하지 않음
 
             # 헤더 여부에 따라 튜플 또는 딕셔너리 생성
