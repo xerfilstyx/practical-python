@@ -1,14 +1,15 @@
 # fileparse.py
 #
-# Exercise 3.6
+# Exercise 3.7
 import csv
 
-def parse_csv(filename, select = None, types = [str, int, float], has_headers = True):
+def parse_csv(filename, select = None, types = [str, int, float], has_headers = True, delimiter = ','):
     """
     CSV 파일을 읽은 뒤 파싱하여 레코드의 목록(딕셔너리 리스트)을 생성
     """
     with open(filename) as f:
-        rows = csv.reader(f)
+        # 구분자를 지정하지 않는 경우 콤마가 기본값이 되며, 지정한 경우에 그 구분자를 csv.reader()에 반영
+        rows = csv.reader(f, delimiter = delimiter)
 
         # 헤더 키워드 인수가 없거나 True이면 헤더를 읽음
         headers = next(rows) if has_headers else []
