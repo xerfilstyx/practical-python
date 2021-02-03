@@ -1,9 +1,9 @@
 # fileparse.py
 #
-# Exercise 3.4
+# Exercise 3.5
 import csv
 
-def parse_csv(filename, select = None):
+def parse_csv(filename, select = None, types = [str, int, float]):
     """
     CSV 파일을 읽은 뒤 파싱하여 레코드의 목록(딕셔너리 리스트)을 생성
     """
@@ -28,6 +28,9 @@ def parse_csv(filename, select = None):
             # 특정 컬럼 선택 키워드 인수가 존재하면 필터링
             if indices:
                 row = [row[index] for index in indices]
+            # 형변환 선택 키워드 인수가 존재하면 형변환
+            if types:
+                row = [func(val) for func, val in zip(types, row)]
             # 딕셔너리 생성
             record = dict(zip(headers, row))
             records.append(record)
