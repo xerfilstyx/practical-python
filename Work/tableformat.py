@@ -1,6 +1,6 @@
 # tableformat.py
 #
-# Exercise 4.6
+# Exercise 4.7
 class TableFormatter:
     def headings(self, headers):
         """
@@ -54,3 +54,17 @@ class HTMLTableFormatter(TableFormatter):
         for d in rowdata:
             print(f'<td>{d}</td>', end = '')
         print('</tr>')
+
+def create_formatter(name):
+    """
+    사용자가 지정한 포맷에 따라 각기 다른 TableFormatter 클래스로 포매터 인스턴스 생성
+    """
+    if name == 'txt':
+        formatter = TextTableFormatter()
+    elif name == 'csv':
+        formatter = CSVTableFormatter()
+    elif name == 'html':
+        formatter = HTMLTableFormatter()
+    else:
+        raise RuntimeError(f'Unknown format {name}')
+    return formatter

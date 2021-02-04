@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 4.6
+# Exercise 4.7
 import fileparse
 from stock import Stock
 import tableformat
@@ -41,24 +41,24 @@ def make_report(portfolio, prices):
 
 def print_report(report, formatter):
     """
-    headers 튜플과 make_report로 생성된 report 리스트를 이용하여 보기 좋게 포맷팅된 테이블을 출력
+    tableformat 모듈에 정의된 TableFormatter 클래스와 make_report로 생성된 report 리스트를 이용하여 보기 좋게 포맷팅된 테이블을 출력
     """
     formatter.headings(['Name', 'Shares', 'Price', 'Change'])
     for name, shares, price, change in report:
         rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
         formatter.row(rowdata)
 
-def portfolio_report(portfolio_filename, prices_filename):
+def portfolio_report(portfolio_filename, prices_filename, fmt = 'txt'):
     """
-    주어진 포트폴리오와 가격 데이터 파일로 주식 보고서를 작성
+    주어진 포트폴리오, 가격 데이터 파일, 포맷 지정으로 주식 보고서를 작성
     """
     # 데이터 파일 읽기
     portfolio = read_portfolio(portfolio_filename)
     prices = read_prices(prices_filename)
     # 보고서 데이터 생성
     report = make_report(portfolio, prices)
-    # 출력. (Text, CSV, HTML)TableFormatter
-    formatter = tableformat.HTMLTableFormatter()
+    # 출력. 사용자의 포맷 지정으로 해당 포맷을 적용
+    formatter = tableformat.create_formatter(fmt)
     print_report(report, formatter)
 
 def main(argv):
