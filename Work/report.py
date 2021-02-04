@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 4.7
+# Exercise 4.8
 import fileparse
 from stock import Stock
 import tableformat
@@ -62,9 +62,9 @@ def portfolio_report(portfolio_filename, prices_filename, fmt = 'txt'):
     print_report(report, formatter)
 
 def main(argv):
-    if len(argv) != 3:
-        raise SystemExit(f'Usage: report.py portfoliofile pricefile')
-    portfolio_report(argv[1], argv[2])
+    if len(argv) != 4:
+        raise SystemExit(f'Usage: report.py portfoliofile pricefile fmt')
+    portfolio_report(argv[1], argv[2], argv[3])
 
 if __name__ == '__main__':  # 스크립트가 메인으로 호출된 때에만 실행
     import sys
