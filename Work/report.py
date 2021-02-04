@@ -1,7 +1,9 @@
 # report.py
 #
-# Exercise 4.4
-import fileparse, stock
+# Exercise 4.6
+import fileparse
+from stock import Stock
+import tableformat
 
 def read_portfolio(portfolio):
     """
@@ -10,7 +12,7 @@ def read_portfolio(portfolio):
     with open(portfolio, 'rt') as file:
         portdicts = fileparse.parse_csv(file, select = ['name', 'shares', 'price'], types = [str, int, float])
     
-    portfolio = [stock.Stock(d['name'], d['shares'], d['price']) for d in portdicts]
+    portfolio = [Stock(d['name'], d['shares'], d['price']) for d in portdicts]
 
     return portfolio
 
@@ -37,20 +39,27 @@ def make_report(portfolio, prices):
 
     return report
 
-def print_report(report):
-
-    headers = ('Name', 'Shares', 'Price', 'Change')
-    
-    print('%10s %10s %10s %10s' % headers)
-    print(('-' * 10 + ' ') * len(headers))
-    for r in report:
-        print('%10s %10d %10.2f %10.2f' % r)
+def print_report(report, formatter):
+    """
+    headers 튜플과 make_report로 생성된 report 리스트를 이용하여 보기 좋게 포맷팅된 테이블을 출력
+    """
+    formatter.headings(['Name', 'Shares', 'Price', 'Change'])
+    for name, shares, price, change in report:
+        rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
+        formatter.row(rowdata)
 
 def portfolio_report(portfolio_filename, prices_filename):
+    """
+    주어진 포트폴리오와 가격 데이터 파일로 주식 보고서를 작성
+    """
+    # 데이터 파일 읽기
     portfolio = read_portfolio(portfolio_filename)
     prices = read_prices(prices_filename)
+    # 보고서 데이터 생성
     report = make_report(portfolio, prices)
-    print_report(report)
+    # 출력. (Text, CSV, HTML)TableFormatter
+    formatter = tableformat.HTMLTableFormatter()
+    print_report(report, formatter)
 
 def main(argv):
     if len(argv) != 3:

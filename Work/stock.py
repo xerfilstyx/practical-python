@@ -12,3 +12,15 @@ class Stock:
     
     def sell(self, sell):
         self.shares -= sell
+
+class MyStock(Stock):
+    def __init__(self, name, shares, price, factor):
+        # super()의 __init__ 호출
+        super().__init__(name, shares, price)
+        self.factor = factor
+
+    def panic(self):
+        self.sell(self.shares)
+    
+    def cost(self):
+        return self.factor * super().cost()
