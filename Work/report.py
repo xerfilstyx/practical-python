@@ -1,20 +1,26 @@
 # report.py
 #
-# Exercise 3.15
+# Exercise 3.18
 import fileparse
 
 def read_portfolio(portfolio):
     """
     fileparse의 parse_csv를 이용하여 filename(portfolio).csv 파일을 읽고 딕셔너리를 요소로 하는 리스트를 생성
     """
-    return fileparse.parse_csv(portfolio)
+    with open(portfolio, 'rt') as file:
+        portfolio = fileparse.parse_csv(file, select = ['name', 'shares', 'price'], types = [str, int, float])
+
+    return portfolio
 
 def read_prices(prices):
     """
     fileparse의 parse_csv를 이용하여 filename(prices).csv 파일을 읽고 딕셔너리를 생성
     """
     # 헤더가 없는 경우 parse_csv는 튜플을 요소로 하는 리스트를 반환하므로 이를 딕셔너리로 변환해야 함
-    return dict(fileparse.parse_csv(prices, types = [str, float], has_headers = False))
+    with open(prices, 'rt') as file:
+        prices = dict(fileparse.parse_csv(file, types = [str, float], has_headers = False))
+
+    return prices
 
 def make_report(portfolio, prices):
     """Read portfolio list and prices dict and return the list of tuples containing Name, Shares, Prices and Change"""
@@ -26,6 +32,7 @@ def make_report(portfolio, prices):
         change = current_price - stock['price']
         summary = (stock['name'], stock['shares'], current_price, change)
         report.append(summary)
+
     return report
 
 def print_report(report):
