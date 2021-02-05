@@ -1,6 +1,6 @@
 # tableformat.py
 #
-# Exercise 4.10
+# Exercise 4.11
 class TableFormatter:
     def headings(self, headers):
         """
@@ -66,7 +66,7 @@ def create_formatter(name):
     elif name == 'html':
         formatter = HTMLTableFormatter()
     else:
-        raise RuntimeError(f'Unknown format {name}')
+        raise FormatError('Unknown table format %s' % name)
     return formatter
 
 def print_table(portfolio, columns, formatter):
@@ -79,3 +79,6 @@ def print_table(portfolio, columns, formatter):
         # formatter.row는 portfolio 리스트의 각 객체(i)를 재정의한 rowdata를 받음. 객체(i)에 대하여 지정된 어트리뷰트를 통해 얻어진 데이터를 문자열 리스트로 변환
         rowdata = [str(getattr(i, colname)) for colname in columns]
         formatter.row(rowdata)
+
+class FormatError(Exception):
+    pass
