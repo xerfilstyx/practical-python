@@ -1,9 +1,10 @@
 # report.py
 #
-# Exercise 4.8
+# Exercise 6.2
 import fileparse
 from stock import Stock
 import tableformat
+from portfolio import Portfolio
 
 def read_portfolio(portfolio):
     """
@@ -13,8 +14,8 @@ def read_portfolio(portfolio):
         portdicts = fileparse.parse_csv(file, select = ['name', 'shares', 'price'], types = [str, int, float])
     
     portfolio = [Stock(d['name'], d['shares'], d['price']) for d in portdicts]
-
-    return portfolio
+    # portfolio에서 임포트한 Portfolio로 인스턴스 생성
+    return Portfolio(portfolio)
 
 def read_prices(prices):
     """
