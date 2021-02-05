@@ -1,6 +1,6 @@
 # portfolio.py
 #
-# Exercise 6.2
+# Exercise 6.3
 class Portfolio:
     
     def __init__(self, holdings):
@@ -8,6 +8,15 @@ class Portfolio:
 
     def __iter__(self):
         return self._holdings.__iter__()
+
+    def __len__(self):
+        return len(self._holdings)
+
+    def __getitem__(self, index):
+        return self._holdings[index]
+    
+    def __contains__(self, name):
+        return any([s.name == name for s in self._holdings])
     
     @property
     def total_cost(self):
