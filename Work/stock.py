@@ -1,7 +1,11 @@
 # stock.py
 #
-# Exercise 4.9
+# Exercise 5.8
 class Stock:
+    """
+    An instance of a stock holding consisting of name, shares, and price.
+    """
+    __slots__ = ['name', '_shares', 'price']
     def __init__(self, name, shares, price):
         self.name = name
         self.shares = shares
@@ -10,20 +14,19 @@ class Stock:
     def __repr__(self):
         return f'Stock({self.name!r}, {self.shares!r}, {self.price!r})'
     
+    @property
+    def shares(self):
+        return self._shares
+    
+    @shares.setter
+    def shares(self, value):
+        if not isinstance(value, int):
+            raise TypeError("Expected an integer.")
+        self._shares = value
+
+    @property
     def cost(self):
         return self.shares * self.price
-    
+ 
     def sell(self, sell):
         self.shares -= sell
-
-class MyStock(Stock):
-    def __init__(self, name, shares, price, factor):
-        # super()의 __init__ 호출
-        super().__init__(name, shares, price)
-        self.factor = factor
-
-    def panic(self):
-        self.sell(self.shares)
-    
-    def cost(self):
-        return self.factor * super().cost()
