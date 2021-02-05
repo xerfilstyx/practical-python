@@ -1,6 +1,6 @@
 # tableformat.py
 #
-# Exercise 4.7
+# Exercise 4.10
 class TableFormatter:
     def headings(self, headers):
         """
@@ -68,3 +68,14 @@ def create_formatter(name):
     else:
         raise RuntimeError(f'Unknown format {name}')
     return formatter
+
+def print_table(portfolio, columns, formatter):
+    """
+    임의의 객체로 구성된 리스트(portfolio)에 대하여 사용자가 지정한 어트리뷰트를 보여주는 테이블을 출력
+    """
+    # formatter.headings는 사용자가 지정한 어트리뷰트(columns)를 받음. 예컨대 columns = ['name', 'shares']
+    formatter.headings(columns)
+    for i in portfolio:
+        # formatter.row는 portfolio 리스트의 각 객체(i)를 재정의한 rowdata를 받음. 객체(i)에 대하여 지정된 어트리뷰트를 통해 얻어진 데이터를 문자열 리스트로 변환
+        rowdata = [str(getattr(i, colname)) for colname in columns]
+        formatter.row(rowdata)
