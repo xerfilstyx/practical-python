@@ -13,7 +13,7 @@ def follow(filename):
             if line == '':
                 time.sleep(0.1)     # 짧게 쉬었다가 재시도
                 continue
-            yield line
+            yield line              # yield로 새로 추가된 line을 밖으로 내보냄
 
 if __name__ == '__main__':
     for line in follow('Data/stocklog.csv'):
