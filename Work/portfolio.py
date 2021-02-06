@@ -1,6 +1,6 @@
 # portfolio.py
 #
-# Exercise 6.3
+# Exercise 6.14
 class Portfolio:
     
     def __init__(self, holdings):
@@ -16,11 +16,13 @@ class Portfolio:
         return self._holdings[index]
     
     def __contains__(self, name):
-        return any([s.name == name for s in self._holdings])
+        # 제너레이터 표현식을 사용
+        return any((s.name == name for s in self._holdings))
     
     @property
     def total_cost(self):
-        return sum([s.cost for s in self._holdings])
+        # 제너레이터 표현식을 사용
+        return sum(s.cost for s in self._holdings)
     
     def tabulate_shares(self):
         from collections import Counter
