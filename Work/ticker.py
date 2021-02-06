@@ -1,6 +1,6 @@
 # ticker.py
 #
-# Exercise 6.10
+# Exercise 6.11
 from follow import follow
 import csv
 
@@ -22,6 +22,11 @@ def parse_stock_data(lines):
     rows = convert_types(rows, [str, float, float])
     rows = make_dicts(rows, ['name', 'price', 'change'])
     return rows
+
+def filter_symbols(rows, names):
+    for row in rows:
+        if row['name'] in names:
+            yield row
 
 if __name__ == '__main__':
     lines = follow('Data/stocklog.csv')
