@@ -1,6 +1,6 @@
 # ticker.py
 #
-# Exercise 6.12
+# Exercise 6.15
 from follow import follow
 import csv, report
 
@@ -23,10 +23,7 @@ def parse_stock_data(lines):
     rows = make_dicts(rows, ['name', 'price', 'change'])
     return rows
 
-def filter_symbols(rows, names):
-    for row in rows:
-        if row['name'] in names:
-            yield row
+# 제너레이터 표현식으로 제너레이터 함수를 대체
 
 def ticker(portfile, logfile, fmt = 'txt'):
     """
@@ -34,7 +31,7 @@ def ticker(portfile, logfile, fmt = 'txt'):
     """
     portfolio = report.read_portfolio(portfile)
     rows = parse_stock_data(follow(logfile))
-    rows = filter_symbols(rows, portfolio)
+    rows = (row for row in rows if row['name'] in portfolio)
     formatter = report.tableformat.create_formatter(fmt)
     formatter.headings(['Name', 'Price', 'Change'])
     for row in rows:
