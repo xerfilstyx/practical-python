@@ -1,16 +1,16 @@
 # stock.py
 #
-# Exercise 7.7
-from typedproperty import typedproperty
+# Exercise 7.8
+from typedproperty import String, Integer, Float
 
 class Stock:
     """
     An instance of a stock holding consisting of name, shares, and price.
     """
 
-    name = typedproperty('name', str)
-    shares = typedproperty('shares', int)
-    price = typedproperty('price', float)
+    name = String('name')
+    shares = Integer('shares')
+    price = Float('price')
 
     def __init__(self, name, shares, price):
         self.name = name

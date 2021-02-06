@@ -1,6 +1,6 @@
 # typedproperty.py
 #
-# Exercise 7.7
+# Exercise 7.8
 def typedproperty(name, expected_type):
     
     private_name = '_' + name
@@ -16,3 +16,8 @@ def typedproperty(name, expected_type):
         setattr(self, private_name, value)
     
     return prop
+
+# lambda 함수로 함수 호출을 단순화
+String = lambda name: typedproperty(name, str)
+Integer = lambda name: typedproperty(name, int)
+Float = lambda name: typedproperty(name, float)
