@@ -1,10 +1,28 @@
 # portfolio.py
 #
-# Exercise 6.14
+# Exercise 7.11
+import stock, fileparse
+
 class Portfolio:
     
-    def __init__(self, holdings):
-        self._holdings = holdings
+    def __init__(self):
+        self._holdings = []
+  
+    @classmethod
+    def from_csv(cls, lines, **opts):
+        # 클래스 메서드 from_csv로 파싱된 데이터를 딕셔너리로 변환한 뒤 Stock 객체에 저장하고 객체를 반환
+        self = cls()
+        portdicts = fileparse.parse_csv(lines, select = ['name', 'shares', 'price'], types = [str, int, float], **opts)
+
+        for d in portdicts:
+            self.append(stock.Stock(**d))
+        
+        return self
+
+    def append(self, holding):
+        if not isinstance(holding, stock.Stock):
+            raise TypeError('Expected a Stock instance')
+        self._holdings.append(holding)
 
     def __iter__(self):
         return self._holdings.__iter__()

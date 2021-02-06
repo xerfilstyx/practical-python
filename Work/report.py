@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 7.4
+# Exercise 7.11
 import fileparse
 from stock import Stock
 import tableformat
@@ -8,15 +8,11 @@ from portfolio import Portfolio
 
 def read_portfolio(portfolio, **opts):
     """
-    fileparse의 parse_csv를 이용하여 filename(portfolio).csv 파일을 읽고 딕셔너리를 요소로 하는 리스트를 생성
+    filename(portfolio).csv 파일을 이용하여 딕셔너리를 요소로 하는 리스트를 생성
     """
     with open(portfolio, 'rt') as file:
-        portdicts = fileparse.parse_csv(file, select = ['name', 'shares', 'price'], types = [str, int, float], **opts)
-    
-    # 딕셔너리 언패킹으로 코드를 단순화
-    portfolio = [Stock(**d) for d in portdicts]
-    # portfolio에서 임포트한 Portfolio로 인스턴스 생성
-    return Portfolio(portfolio)
+        return Portfolio.from_csv(file, **opts)
+    # Portfolio 클래스 메서드 from_csv에서 파싱 및 딕셔너리 언패킹을 하도록 수정
 
 def read_prices(prices):
     """
