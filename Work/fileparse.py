@@ -1,7 +1,10 @@
 # fileparse.py
 #
-# Exercise 3.17
+# Exercise 8.2
 import csv
+import logging
+
+log = logging.getLogger(__name__)
 
 def parse_csv(lines, select = None, types = [str, int, float], has_headers = True, delimiter = ',', silence_errors = False):
     """
@@ -36,8 +39,8 @@ def parse_csv(lines, select = None, types = [str, int, float], has_headers = Tru
                 row = [func(val) for func, val in zip(types, row)]
             except ValueError as e:
                 if not silence_errors:  # silence_errors가 True로 지정된 경우에만 오류 메시지 출력
-                    print(f'Row {rowno}: Couldn\'t convert {row}')
-                    print(f'Row {rowno}: Reason - {e}')
+                    log.warning("Row %d: Couldn't convert %s", rowno, row)
+                    log.debug("Row %d: Reason - %s", rowno, e)
                 continue    # 예외 발생시 해당 데이터는 row에 반영하지 않음
 
         # 헤더 여부에 따라 튜플 또는 딕셔너리 생성

@@ -1,6 +1,6 @@
 # report.py
 #
-# Exercise 7.11
+# Exercise 8.3
 import fileparse
 from stock import Stock
 import tableformat
@@ -65,5 +65,11 @@ def main(argv):
     portfolio_report(argv[1], argv[2], argv[3])
 
 if __name__ == '__main__':  # 스크립트가 메인으로 호출된 때에만 실행
-    import sys
+    import sys, logging
+
+    logging.basicConfig(            # logging 출력의 조절
+        filename = 'app.log',       # 로그 파일의 이름
+        filemode = 'w',             # 파일 모드
+        level = logging.DEBUG     # 로깅 수준(DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    )
     main(sys.argv)  # main() 호출. sys.argv는 명령행 인자(command line args)인 텍스트 문자열의 리스트임
